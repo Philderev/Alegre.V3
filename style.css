@@ -1338,12 +1338,17 @@ body.legal-doc .eyebrow::before { background: #ccc; }
   margin-top:10px; background:var(--orange); font-size:0.82rem; color:#ffffff; text-decoration:none;
 }
 .site-footer .footer-grid a.btn-primary:hover{
-  background:#ff7a10; color:#ffffff; text-decoration:none;
+  background:var(--blue); color:#ffffff; text-decoration:none;
 }
 
 .contact-line{display:flex; align-items:center; gap:10px;}
 .icon-sm{width:16px; height:16px; flex-shrink:0; filter:none; opacity:0.5;}
 .icon-md{width:22px; height:22px; flex-shrink:0; filter:none; opacity:0.5;}
+[data-theme="dark"] .icon-sm,
+[data-theme="dark"] .icon-md{
+  filter:brightness(0) invert(1);
+  opacity:1;
+}
 .footer-brand .brand{margin-bottom:12px;}
 .footer-bottom{
   border-top:1px solid #d2d2d7;
