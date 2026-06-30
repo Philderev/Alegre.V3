@@ -1,0 +1,28 @@
+Service hero background image sources
+
+Downloaded from Unsplash image CDN for Alegre service page hero background use.
+Selected to avoid Meta/platform logos and obvious third-party branding.
+
+service-hero-ads.jpg
+https://images.unsplash.com/photo-1535732759880-bbd5c7265e3f
+
+service-hero-lead-generation.jpg
+https://images.unsplash.com/photo-1587582423116-ec07293f0395
+
+service-hero-automation.jpg
+https://images.unsplash.com/photo-1504307651254-35680f356dfd
+
+service-hero-crm.jpg
+https://images.unsplash.com/photo-1582540730843-f4418d96ccbe
+
+service-hero-sales.jpg
+https://images.unsplash.com/photo-1531834685032-c34bf0d84c77
+
+service-hero-websites.jpg
+https://images.unsplash.com/photo-1508450859948-4e04fabaa4ea
+
+service-hero-drone.jpg
+https://images.unsplash.com/photo-1488462104523-514bea5f99b3
+
+service-hero-local-seo.jpg
+https://images.unsplash.com/photo-1582540730843-f4418d96ccbe
