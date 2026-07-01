@@ -3,75 +3,89 @@
    see animations.js for scroll reveals + exit intent)
    =================================================================== */
 
-/* ---------- Dark mode (runs before DOMContentLoaded to prevent flash) ---------- */
-(function(){
-  var stored = localStorage.getItem("alegre-theme");
-  if(stored === "dark" || stored === "light"){
-    document.documentElement.setAttribute("data-theme", stored);
-  } else {
-    if(window.matchMedia("(prefers-color-scheme:dark)").matches){
-      document.documentElement.setAttribute("data-theme","dark");
-    }
-  }
-})();
 
 (function(){
   "use strict";
 
   document.addEventListener("DOMContentLoaded", function(){
 
-    /* ---------- Dark mode toggle (3-way pill: light / dark / auto) ---------- */
-    var html = document.documentElement;
+    /* ---------- Floating contact CTA modal ---------- */
+    var contactTrigger = document.createElement("button");
+    contactTrigger.id = "theme-toggle";
+    contactTrigger.type = "button";
+    contactTrigger.className = "floating-contact-trigger";
+    contactTrigger.setAttribute("aria-haspopup", "dialog");
+    contactTrigger.setAttribute("aria-controls", "contact-action-modal");
+    contactTrigger.setAttribute("aria-expanded", "false");
+    contactTrigger.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.91.33 1.79.62 2.64a2 2 0 0 1-.45 2.11L8 9.75a16 16 0 0 0 6.25 6.25l1.28-1.28a2 2 0 0 1 2.11-.45c.85.29 1.73.5 2.64.62A2 2 0 0 1 22 16.92z"/></svg><span>Contact</span>';
 
-    function applyMode(mode){
-      if(mode === "auto"){
-        var prefersDark = window.matchMedia("(prefers-color-scheme:dark)").matches;
-        html.setAttribute("data-theme", prefersDark ? "dark" : "light");
-        localStorage.setItem("alegre-theme", "auto");
-      } else {
-        html.setAttribute("data-theme", mode);
-        localStorage.setItem("alegre-theme", mode);
+    var contactModal = document.createElement("div");
+    contactModal.id = "contact-action-modal";
+    contactModal.className = "contact-action-modal";
+    contactModal.setAttribute("role", "dialog");
+    contactModal.setAttribute("aria-modal", "true");
+    contactModal.setAttribute("aria-labelledby", "contact-action-title");
+    contactModal.hidden = true;
+    contactModal.innerHTML =
+      '<div class="contact-action-card" role="document">' +
+        '<button type="button" class="contact-action-close" aria-label="Close contact options">&times;</button>' +
+        '<h2 id="contact-action-title">Contact Alegre</h2>' +
+        '<p>Call us or send a message below.</p>' +
+        '<div class="contact-action-options">' +
+          '<a class="btn btn-primary" href="tel:7252203324">Call</a>' +
+        '</div>' +
+        '<div class="contact-action-form" aria-label="Growth Assessment request form">' +
+          '<iframe src="https://leadhubb.alegresolutionsgs.com/widget/form/GQR6LHpUP82AX8AzvWXD" id="inline-GQR6LHpUP82AX8AzvWXD" data-layout="{\'id\':\'INLINE\'}" data-form-id="GQR6LHpUP82AX8AzvWXD" data-layout-iframe-id="inline-GQR6LHpUP82AX8AzvWXD" data-height="668" data-form-name="Growth" title="Growth Assessment form" loading="lazy"></iframe>' +
+        '</div>' +
+      '</div>';
+
+    var lastFocusedContactElement = null;
+    var contactCloseButton = contactModal.querySelector(".contact-action-close");
+    var contactActionLinks = contactModal.querySelectorAll(".contact-action-options a");
+
+    function openContactModal(){
+      lastFocusedContactElement = document.activeElement;
+      contactModal.hidden = false;
+      contactModal.classList.add("is-visible");
+      contactTrigger.setAttribute("aria-expanded", "true");
+      contactCloseButton.focus();
+    }
+
+    function closeContactModal(){
+      contactModal.classList.remove("is-visible");
+      contactModal.hidden = true;
+      contactTrigger.setAttribute("aria-expanded", "false");
+      if(lastFocusedContactElement && typeof lastFocusedContactElement.focus === "function"){
+        lastFocusedContactElement.focus();
       }
     }
-    window.matchMedia("(prefers-color-scheme:dark)").addEventListener("change", function(e){
-      if(localStorage.getItem("alegre-theme") === "auto" || !localStorage.getItem("alegre-theme")){
-        html.setAttribute("data-theme", e.matches ? "dark" : "light");
+
+    contactTrigger.addEventListener("click", openContactModal);
+    contactCloseButton.addEventListener("click", closeContactModal);
+    contactModal.addEventListener("click", function(e){
+      if(e.target === contactModal){
+        closeContactModal();
+      }
+    });
+    contactActionLinks.forEach(function(link){
+      link.addEventListener("click", closeContactModal);
+    });
+    document.addEventListener("keydown", function(e){
+      if(e.key === "Escape" && contactModal.classList.contains("is-visible")){
+        closeContactModal();
       }
     });
 
-    var pill = document.createElement("div");
-    pill.id = "theme-toggle";
-    pill.setAttribute("role", "group");
-    pill.setAttribute("aria-label", "Color theme");
+    // Ensure the GHL form auto-resize script is present (only index/contact ship it inline)
+    if(!document.querySelector('script[src*="form_embed.js"]')){
+      var ghlScript = document.createElement("script");
+      ghlScript.src = "https://leadhubb.alegresolutionsgs.com/js/form_embed.js";
+      ghlScript.defer = true;
+      document.body.appendChild(ghlScript);
+    }
 
-    var sunSVG  = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>';
-    var moonSVG = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
-    var autoSVG = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 3"/></svg>';
-
-    var currentMode = localStorage.getItem("alegre-theme") || "auto";
-
-    var options = [
-      { mode:"light", svg:sunSVG,  label:"Light mode" },
-      { mode:"dark",  svg:moonSVG, label:"Dark mode" },
-      { mode:"auto",  svg:autoSVG, label:"System default" }
-    ];
-
-    options.forEach(function(opt){
-      var btn = document.createElement("button");
-      btn.type = "button";
-      btn.setAttribute("aria-label", opt.label);
-      btn.dataset.mode = opt.mode;
-      btn.innerHTML = opt.svg;
-      if(opt.mode === currentMode) btn.classList.add("is-active");
-      btn.addEventListener("click", function(){
-        pill.querySelectorAll("button").forEach(function(b){ b.classList.remove("is-active"); });
-        btn.classList.add("is-active");
-        applyMode(opt.mode);
-      });
-      pill.appendChild(btn);
-    });
-
-    document.body.appendChild(pill);
+    document.body.appendChild(contactTrigger);
+    document.body.appendChild(contactModal);
 
     /* ---------- Sticky header ---------- */
     var header = document.querySelector(".site-header");
