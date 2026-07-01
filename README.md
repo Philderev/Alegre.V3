@@ -64,7 +64,7 @@ Current public metadata points to:
 
 Before final launch:
 - Confirm the public URL and update canonicals/sitemap if the path changes.
-- Compress `videos/hero-video.mp4` and `videos/hero-video.webm` for better mobile performance.
+- Compress `videos/hero-video.mp4` for better mobile performance.
 - Replace or remove any placeholder case study numbers before using them as client proof.
 - Have legal pages reviewed by counsel before production use.
 - Submit the updated `sitemap.xml` in Google Search Console.
