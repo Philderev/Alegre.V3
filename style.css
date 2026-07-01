@@ -1808,6 +1808,11 @@ body.legal-doc .page-hero .eyebrow,
   opacity:0; pointer-events:none;
   transition:opacity .25s var(--ease);
 }
+/* When closed the modal must be fully removed from the layout: it is always
+   display:flex (which overrides the [hidden] attribute), and GHL's form_embed.js
+   sets pointer-events:auto on the iframe, so an invisible full-screen iframe would
+   otherwise sit at z-index 99999 and swallow taps meant for the nav/dropdowns. */
+.contact-action-modal[hidden]{ display:none; }
 .contact-action-modal.is-visible{
   opacity:1; pointer-events:auto;
 }
