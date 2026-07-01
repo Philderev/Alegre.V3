@@ -1737,14 +1737,16 @@ body.legal-doc .page-hero .eyebrow,
 
 
 /* ---------- Pricing proposal cards ---------- */
-.pricing-stack{grid-template-columns:repeat(3, minmax(0, 1fr));max-width:1280px;margin:0 auto;gap:24px;align-items:stretch;}
+.pricing-stack{grid-template-columns:repeat(3, minmax(0, 1fr));max-width:1280px;margin:0 auto;gap:24px;align-items:start;}
 .pricing-stack .price-card{overflow:visible;margin-top:20px;}
+.pricing-stack .price-card:first-child,
+.pricing-stack .price-card:last-child{margin-top:40px;}
 .price-status{display:inline-flex;width:max-content;margin-bottom:12px;padding:4px 9px;border-radius:4px;background:rgba(18,57,94,0.1);border:1px solid rgba(18,57,94,0.3);color:#12395e;font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;}
 .price-status::before{content:"✓";margin-right:5px;}
 .price-popular{position:absolute;top:-14px;left:50%;transform:translate(-50%, 0);padding:4px 14px;border-radius:999px;background:#5bc4f0;border:2px solid #5bc4f0;color:#0a0a0a;font-family:var(--heading-font);font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;opacity:1;pointer-events:none;}
 .price-kicker{display:block;font-size:.68rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:3px;}
-.pricing-stack .price-card h3{font-size:clamp(1.8rem,3vw,2.4rem);letter-spacing:.045em;color:#111111;}
-.price-copy{max-width:720px;margin:6px 0 18px;color:#444444;font-size:.92rem;}
+.pricing-stack .price-card h3{font-size:clamp(1.8rem,3vw,2.4rem);letter-spacing:.045em;color:#111111;margin-bottom:0;}
+.price-card p.price-copy{max-width:720px;margin:0 0 18px;color:#444444;font-size:.92rem;line-height:1.5;}
 .price-row{display:flex;align-items:flex-end;gap:3px;margin:8px 0 2px;}
 .price-currency{font-family:var(--heading-font);font-size:2rem;color:#111111;line-height:1;transform:translateY(-.15em);}
 .price-number{font-family:var(--heading-font);font-size:clamp(3.4rem,7vw,5.8rem);line-height:.88;color:#111111;letter-spacing:.02em;}
@@ -1760,14 +1762,42 @@ body.legal-doc .page-hero .eyebrow,
 .pricing-stack .btn{margin-top:22px;}
 @media(max-width:1100px){.pricing-stack{grid-template-columns:1fr;max-width:760px;}.price-group{grid-template-columns:1fr;}}@media(max-width:720px){.price-number{font-size:3.8rem}.price-popular{left:50%;right:auto;}}
 
+/* Neutral badge (no checkmark) for value / commitment notes */
+.price-badge{display:inline-flex;width:max-content;margin:0 8px 12px 0;padding:4px 9px;border-radius:4px;background:rgba(0,0,0,0.05);border:1px solid rgba(0,0,0,0.14);color:#333333;font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;}
+.price-status{margin-right:8px;}
+
+/* Center-card itemized value breakdown */
+.price-lineitems{margin:14px 0 4px;border-top:1px solid rgba(0,0,0,0.1);border-bottom:1px solid rgba(0,0,0,0.1);}
+.price-line{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:6px 14px;padding:12px 0;border-top:1px solid rgba(0,0,0,0.08);}
+.price-line:first-child{border-top:0;}
+.price-line-name{color:#333333;font-size:.94rem;font-weight:600;flex:1 1 60%;}
+.price-line-name em{font-style:normal;color:#666666;font-weight:400;}
+.price-line-cost{font-family:var(--heading-font);font-size:1.02rem;color:#111111;white-space:nowrap;}
+.price-line-sub{flex:1 1 100%;margin:0;color:#666666;font-size:.8rem;line-height:1.45;}
+.price-line.is-total{border-top:2px solid rgba(0,0,0,0.2);}
+.price-line.is-total .price-line-name{color:#111111;text-transform:uppercase;letter-spacing:.06em;font-size:.9rem;}
+.price-line.is-total .price-line-cost{font-size:1.25rem;color:var(--navy);text-decoration:line-through;text-decoration-thickness:2px;text-decoration-color:rgba(0,0,0,0.45);}
+
+/* Dark theme */
+[data-theme="dark"] .price-badge{background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.15);color:#d1d1d6;}
+[data-theme="dark"] .price-lineitems{border-color:rgba(255,255,255,0.14);}
+[data-theme="dark"] .price-line{border-top-color:rgba(255,255,255,0.1);}
+[data-theme="dark"] .price-line-name{color:#e5e5e7;}
+[data-theme="dark"] .price-line-name em{color:#ababab;}
+[data-theme="dark"] .price-line-cost{color:#f5f5f7;}
+[data-theme="dark"] .price-line-sub{color:#ababab;}
+[data-theme="dark"] .price-line.is-total{border-top-color:rgba(255,255,255,0.3);}
+[data-theme="dark"] .price-line.is-total .price-line-name{color:#f5f5f7;}
+[data-theme="dark"] .price-line.is-total .price-line-cost{color:#5bc4f0;text-decoration-color:rgba(255,255,255,0.5);}
+
 
 /* Pricing card button colors */
 .pricing-stack .btn,
 .pricing-stack .btn-primary,
 .pricing-stack .btn-outline{
-  background:#ffffff;
-  border:2px solid #12395e;
-  color:#12395e;
+  background:var(--blue);
+  border:2px solid var(--blue);
+  color:#ffffff;
   box-shadow:none;
 }
 .pricing-stack .btn:hover,
